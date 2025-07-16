@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clinician Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+    <div class="login-background"></div>
+    <div class="login-box">
+        
+        <h2>Clinician Portal</h2>
+        <p class="login-subheading">Secure access for authorized users only</p>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <input type="text" name="username" placeholder="Username" required autofocus>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>
+
+

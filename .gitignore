@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+
+# Databases
+*.db
+*.sqlite3
+
+# macOS
+.DS_Store
+
+# Results and logs
+static/results/
+*.log

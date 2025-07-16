@@ -1,0 +1,426 @@
+
+/* general styles */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* container layout */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+}
+
+h2, h1 {
+    color: #333;
+}
+
+
+/* buttons */
+.btn, .start-test-button, .download-button, .nav-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover,
+.start-test-button:hover,
+.download-button:hover,
+.nav-button:hover {
+    background-color: #45a049;
+}
+
+
+/* progress bar */
+#progress-bar {
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+#progress-bar-fill {
+    height: 20px;
+    background-color: #4CAF50;
+    width: 0%;
+    border-radius: 5px;
+}
+
+
+/* table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* results images */
+.results-images {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.results-images img {
+    margin: 20px auto;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+
+/* diagnosis section */
+.diagnosis-box {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    background: #f5faff;
+}
+
+.diagnosis {
+    font-size: 1.4em;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+.diagnosis.normal { color: #28a745; }
+.diagnosis.caution { color: #ffc107; }
+.diagnosis.abnormal { color: #dc3545; }
+.diagnosis.unknown { color: #6c757d; }
+
+/* badge styles */
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.85em;
+    display: inline-block;
+}
+
+.badge.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.badge.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.badge.neutral {
+    background-color: #e2e3e5;
+    color: #6c757d;
+}
+
+
+/* Login Page */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url("/static/images/clinic_logo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.login-box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-box input {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.login-box button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.login-box button:hover {
+    background: #0056b3;
+}
+
+.login-logo {
+    width: 80px;
+    margin-bottom: 15px;
+}
+
+.login-subheading {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.error {
+    color: #d9534f;
+    background: #f9d6d5;
+    border: 1px solid #e99b9b;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+
+/* Dashboard Page */
+body.dashboard-page {
+    font-family: 'Poppins', sans-serif;
+    background-image: url("/static/images/clinic_logo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.main-header {
+    background: #005f73; 
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.header-link {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+
+.header-link:hover {
+    opacity: 0.8;
+}
+
+.logout {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.dashboard-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.welcome-box {
+    background: rgba(255, 255, 255, 0.92);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+    backdrop-filter: blur(4px);
+}
+
+.how-it-works {
+    background: #e9f3ff;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.how-it-works ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.how-it-works li {
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: #333;
+}
+
+
+/* pop-up */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 25px;
+    max-width: 500px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  
+  .popup-content h3 {
+    margin-top: 0;
+  }
+  
+  .close-popup-btn {
+    margin-top: 20px;
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .close-popup-btn:hover {
+    background: #0056b3;
+  }
+
+/* Footer (Shared) */
+.main-footer {
+    background: #f1f1f1;
+    padding: 20px 0;
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: 60px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.results-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-logout-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.footer-logout-button:hover {
+    background-color: #c82333;
+}
+
+
+/* Test Page */
+body.test-page {
+    font-family: 'Poppins', sans-serif;
+    background: #f4f8fc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.test-container {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    max-width: 700px;
+    width: 90%;
+    margin: 30px auto;
+}
+
+.input-group {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.status-text {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #555;
+}
+
+

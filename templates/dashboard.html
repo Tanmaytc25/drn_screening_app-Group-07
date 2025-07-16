@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clinician Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard-page">
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="header-content">
+            <div class="app-title">DRN Screening Portal</div>
+            <nav>
+                <a href="{{ url_for('dashboard') }}" class="header-link">Dashboard</a>
+                <a href="{{ url_for('start_test') }}" class="header-link">Start Test</a>
+                <a href="{{ url_for('logout') }}" class="header-link logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN content -->
+    <main class="dashboard-container">
+        <section class="welcome-box">
+            <h1>Welcome, Clinician</h1>
+            <p>This platform enables fast and accurate screening of patients using pupil and gaze biomarkers.</p>
+        </section>
+
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <ul>
+                <li>📸 Use your webcam to capture pupil and gaze responses during a light stimulus.</li>
+                <li>📊 The system automatically analyzes key biomarkers like latency, constriction, and gaze stability.</li>
+                <li>📄 A summary PDF report is generated and stored for review or download.</li>
+                <li>🧠 Non-invasive, fast, and efficient — ideal for clinics, research, and diagnostics.</li>
+            </ul>
+        </section>
+
+        <div class="start-test-container">
+            <a href="{{ url_for('start_test') }}" class="start-test-button">Begin New Test</a>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <p>&copy; 2025 DRN Screening. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
+

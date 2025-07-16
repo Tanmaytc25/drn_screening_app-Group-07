@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results for {{ patient }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <style>
+    .row-success { background-color: #e7f9ed; }
+    .row-warning { background-color: #fff6e5; }
+    .row-neutral { background-color: #f2f2f2; }
+
+    .info-tooltip {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 0.9em;
+      margin-left: 5px;
+      color: #555;
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+      padding: 8px;
+      font-size: 0.85em;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      z-index: 10;
+      width: 220px;
+      top: 20px;
+      left: 0;
+    }
+
+    .summary-flags {
+      margin: 20px 0;
+      font-size: 1rem;
+      background-color: #f9f9f9;
+      padding: 10px;
+      border-left: 4px solid #0077cc;
+    }
+
+    .disclaimer-box {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f1f1f1;
+      border-left: 4px solid #0077cc;
+      font-size: 0.9em;
+      color: #444;
+    }
+  </style>
+</head>
+<body class="results-page">
+
+<!--  notice popup -->
+<div id="preliminaryPopup" class="popup-overlay">
+  <div class="popup-content">
+    <h3>Preliminary Test Results</h3>
+    <p>
+      These results are generated from the current eye screening test and are for preliminary analysis only.
+      They should not be considered a final diagnosis. Please consult a medical professional for confirmation
+      and further evaluation. This is currently only meant to be an academic project but envision to potenially serve as a Clinical Decision Support System (CDSS) with future developments.
+    </p>
+    <button onclick="closePopup()" class="close-popup-btn">Close</button>
+  </div>
+</div>
+
+<div class="results-container">
+  <h2>Results for {{ patient }}</h2>
+  <hr>
+
+  <!-- table of biomarker values -->
+  <table class="results-table">
+    <tr>
+      <th>Biomarker</th>
+      <th>Recorded Value</th>
+      <th>Normative Range</th>
+      <th>Interpretation</th>
+    </tr>
+
+    <!-- PLR Latency -->
+    {% set latency_status = "row-warning" if data["Latency (s)"] is not none and not (0.2 <= data["Latency (s)"] <= 0.3) else "row-success" %}
+    <tr class="{{ latency_status }}">
+      <td>PLR Latency (s)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Delay between flash and pupil reaction (neural response)</span>
+      </span></td>
+      <td>{{ data["Latency (s)"] if data["Latency (s)"] is not none else 'N/A' }}</td>
+      <td>0.20 – 0.30</td>
+      <td>
+        {% if data["Latency (s)"] is not none %}
+          {% if 0.2 <= data["Latency (s)"] <= 0.3 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">Abnormal</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- Constriction Amplitude -->
+    {% set constriction_status = "row-warning" if data["Constriction Amplitude"] is not none and data["Constriction Amplitude"] < 1.2 else "row-success" %}
+    <tr class="{{ constriction_status }}">
+      <td>Constriction Amplitude (mm)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">How much pupil shrinks — reflex strength</span>
+      </span></td>
+      <td>{{ data["Constriction Amplitude"] if data["Constriction Amplitude"] is not none else 'N/A' }}</td>
+      <td>&gt;1.2 mm</td>
+      <td>
+        {% if data["Constriction Amplitude"] is not none %}
+          {% if data["Constriction Amplitude"] >= 1.2 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">Weak</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- Baseline Pupil Size -->
+    {% set baseline_status = "row-warning" if data["Baseline Pupil Size"] is not none and not (2 <= data["Baseline Pupil Size"] <= 6) else "row-success" %}
+    <tr class="{{ baseline_status }}">
+      <td>Baseline Pupil Size (mm)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Normal pupil size before flash</span>
+      </span></td>
+      <td>{{ data["Baseline Pupil Size"] if data["Baseline Pupil Size"] is not none else 'N/A' }}</td>
+      <td>2 – 6 mm</td>
+      <td>
+        {% if data["Baseline Pupil Size"] is not none %}
+          {% if 2 <= data["Baseline Pupil Size"] <= 6 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">Outside Range</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- PIPR -->
+    {% set pipr_status = "row-warning" if data["PIPR"] is not none and data["PIPR"] <= 0 else "row-success" %}
+    <tr class="{{ pipr_status }}">
+      <td>PIPR (mm)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Post-illumination reaction — autonomic recovery</span>
+      </span></td>
+      <td>{{ data["PIPR"] if data["PIPR"] is not none else 'N/A' }}</td>
+      <td>&gt;0</td>
+      <td>
+        {% if data["PIPR"] is not none %}
+          {% if data["PIPR"] > 0 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">Abnormal</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- Gaze SD -->
+    {% set gaze_status = "row-warning" if (data["Gaze SD X"] is not none and data["Gaze SD X"] >= 0.02) or (data["Gaze SD Y"] is not none and data["Gaze SD Y"] >= 0.02) else "row-success" %}
+    <tr class="{{ gaze_status }}">
+      <td>Gaze SD X / Y<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Gaze stability — precision of eye movement</span>
+      </span></td>
+      <td>{{ data["Gaze SD X"] }} / {{ data["Gaze SD Y"] }}</td>
+      <td>&lt;0.02</td>
+      <td>
+        {% if data["Gaze SD X"] is not none and data["Gaze SD Y"] is not none %}
+          {% if data["Gaze SD X"] < 0.02 and data["Gaze SD Y"] < 0.02 %}
+            <span class="badge success">Stable</span>
+          {% else %}
+            <span class="badge warning">Unstable</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- BCEA -->
+    {% set bcea_status = "row-warning" if data["BCEA"] is not none and data["BCEA"] >= 1.5 else "row-success" %}
+    <tr class="{{ bcea_status }}">
+      <td>BCEA (deg²)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Elliptical gaze error area — attention focus measure</span>
+      </span></td>
+      <td>{{ data["BCEA"] if data["BCEA"] is not none else 'N/A' }}</td>
+      <td>&lt;1.5</td>
+      <td>
+        {% if data["BCEA"] is not none %}
+          {% if data["BCEA"] < 1.5 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">High</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+
+    <!-- Saccades -->
+    {% set saccades_status = "row-warning" if data["Saccades"] is not none and data["Saccades"] > 100 else "row-success" %}
+    <tr class="{{ saccades_status }}">
+      <td>Saccades (count)<span class="info-tooltip" onclick="toggleTooltip(this)">ⓘ
+        <span class="tooltip-content">Number of rapid eye shifts — cognitive response proxy</span>
+      </span></td>
+      <td>{{ data["Saccades"] if data["Saccades"] is not none else 'N/A' }}</td>
+      <td>≤100</td>
+      <td>
+        {% if data["Saccades"] is not none %}
+          {% if data["Saccades"] <= 100 %}
+            <span class="badge success">Normal</span>
+          {% else %}
+            <span class="badge warning">Excessive</span>
+          {% endif %}
+        {% else %}
+          <span class="badge neutral">N/A</span>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  <!-- disclaimer below table -->
+  <div class="disclaimer-box">
+    <strong>Note:</strong> The above ranges are normative values derived from online academic research and are meant only for this academic project. They are NOT intended for a formal and final medical diagnosis at this current prelimary stage of the project. Please consult a qualified specialist and larger-scale clinical data for further validation.
+  </div>
+
+  <!-- diagnosis summary -->
+  <div class="summary-flags">
+    <strong>Biomarkers outside range:</strong>
+    {% set flags = [] %}
+    {% if data["Latency (s)"] is not none and not (0.2 <= data["Latency (s)"] <= 0.3) %}
+      {% set flags = flags + ["Latency"] %}
+    {% endif %}
+    {% if data["Constriction Amplitude"] is not none and data["Constriction Amplitude"] < 1.5 %}
+      {% set flags = flags + ["Constriction Amplitude"] %}
+    {% endif %}
+    {% if data["Baseline Pupil Size"] is not none and not (2 <= data["Baseline Pupil Size"] <= 6) %}
+      {% set flags = flags + ["Baseline Pupil Size"] %}
+    {% endif %}
+    {% if data["PIPR"] is not none and data["PIPR"] <= 0 %}
+      {% set flags = flags + ["PIPR"] %}
+    {% endif %}
+    {% if data["Gaze SD X"] is not none and data["Gaze SD X"] >= 0.02 %}
+      {% set flags = flags + ["Gaze SD X"] %}
+    {% endif %}
+    {% if data["Gaze SD Y"] is not none and data["Gaze SD Y"] >= 0.02 %}
+      {% set flags = flags + ["Gaze SD Y"] %}
+    {% endif %}
+    {% if data["BCEA"] is not none and data["BCEA"] >= 0.001 %}
+      {% set flags = flags + ["BCEA"] %}
+    {% endif %}
+    {% if data["Saccades"] is not none and data["Saccades"] > 100 %}
+      {% set flags = flags + ["Saccades"] %}
+    {% endif %}
+    {{ flags | join(', ') if flags else 'None' }}
+  </div>
+
+  <div class="diagnosis-box">
+    <h3>Diagnosis</h3>
+    {% if flags|length >= 4 %}
+      <p class="diagnosis abnormal">High Risk of DRN</p>
+    {% elif flags|length >= 2 %}
+      <p class="diagnosis caution">At Risk of DRN</p>
+    {% else %}
+      <p class="diagnosis normal">Normal</p>
+    {% endif %}
+  </div>
+
+  <!-- Plots -->
+  <div class="results-images">
+    {% if data['Pupil Plot'] %}
+      <img src="{{ url_for('static', filename=data['Pupil Plot']|replace('static/', '') ) }}" alt="Pupil Response Plot">
+    {% endif %}
+    {% if data['Gaze Plot'] %}
+      <img src="{{ url_for('static', filename=data['Gaze Plot']|replace('static/', '') ) }}" alt="Gaze Stability Plot">
+    {% endif %}
+  </div>
+
+  <a href="{{ url_for('download_pdf', patient_name=patient) }}" class="download-button">Download PDF Report</a>
+</div>
+
+<footer class="main-footer results-footer">
+  <a href="{{ url_for('logout') }}" class="footer-logout-button">Logout</a>
+  <p>&copy; 2025 DRN Screening. All rights reserved.</p>
+</footer>
+
+<!-- JS for tooltips and popup -->
+<script>
+  function closePopup() {
+    document.getElementById("preliminaryPopup").style.display = "none";
+  }
+
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      document.getElementById("preliminaryPopup").style.display = "flex";
+    }, 500);
+  });
+
+  function toggleTooltip(element) {
+    const tooltip = element.querySelector('.tooltip-content');
+    const isVisible = tooltip.style.display === 'block';
+    document.querySelectorAll('.tooltip-content').forEach(t => t.style.display = 'none');
+    tooltip.style.display = isVisible ? 'none' : 'block';
+  }
+
+  document.addEventListener('click', function(event) {
+    if (!event.target.closest('.info-tooltip')) {
+      document.querySelectorAll('.tooltip-content').forEach(t => t.style.display = 'none');
+    }
+  });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

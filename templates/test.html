@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Eye Test</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="test-page">
+    <div class="test-container">
+        <h2>Patient Eye Test</h2>
+
+        <video id="webcam" autoplay playsinline width="640" height="480"></video>
+
+        <div class="input-group">
+            <label for="patientName">Patient Name:</label>
+            <input id="patientName" type="text" placeholder="Enter Patient Name" required>
+        </div>
+
+        <button id="startBtn" class="start-test-button">Start Eye Test</button>
+
+        <div id="statusText" class="status-text">Awaiting test...</div>
+
+        <div id="progress-bar">
+            <div id="progress-bar-fill"></div>
+        </div>
+
+        <script src="/static/js/webcam.js"></script>
+    </div>
+    <footer class="main-footer">
+        <p>&copy; 2025 DRN Screening. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
+
+
+
+
