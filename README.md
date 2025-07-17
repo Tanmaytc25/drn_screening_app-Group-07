@@ -27,5 +27,20 @@ This academic project presents a web-based application for preliminary screening
 - Built and tested on macOS using a 2015 MacBook webcam.
  For Login use the following username == "clinician" and password == "drn2025"
 
+## 🚀 Installation & Running Instructions
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/Tanmaytc25/drn_screening_app-Group-07.git
+   cd drn_screening_app-Group-07
+
+   python3 -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+
+python app.py
+
+Open your browser and go to:
+http://127.0.0.1:5000
+
 
 ---
